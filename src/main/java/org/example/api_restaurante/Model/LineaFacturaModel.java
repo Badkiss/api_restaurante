@@ -3,6 +3,8 @@ package org.example.api_restaurante.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Date;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -16,7 +18,10 @@ public class LineaFacturaModel {
     @Column(unique = true,nullable = false)
     private Long id;
 
-    private Long producto;
     private int cantidad;
     private float precioTotal;
+    private Long producto;
+    private Long factura;
+    private Date fecha;
+
 }

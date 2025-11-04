@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class FacturaDTO {
     private float total;
     private Long idMesa;
+    private Long usuario;
 
 }

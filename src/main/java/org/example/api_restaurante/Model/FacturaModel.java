@@ -18,5 +18,6 @@ public class FacturaModel {
 
     private float total;
     private Long idMesa;
+    private Long usuario;
 
 }

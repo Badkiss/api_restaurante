@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface RepositoryMateriaPrima  extends JpaRepository<MateriaPrimaModel, Long> {
-    @Query("select  m from MateriaPrimaModel m where m.nombre like %?1%")
-    public List<MateriaPrimaModel> findByNombre(String nombre);
+     List<MateriaPrimaModel> findByNombre(String nombre);
 }

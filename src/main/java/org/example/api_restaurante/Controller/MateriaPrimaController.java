@@ -43,6 +43,6 @@ public class MateriaPrimaController {
     }
    @DeleteMapping("/delete/{id}")
     public void deleteMateriaPrima(@PathVariable Long id) {
-         materiaPrimaServices.getMateriaPrimaById(id);
+         materiaPrimaServices.delete(id);
    }
 }

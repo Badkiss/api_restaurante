@@ -3,6 +3,8 @@ package org.example.api_restaurante.Model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -19,5 +21,7 @@ public class FacturaModel {
     private float total;
     private Long idMesa;
     private Long usuario;
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "factura",cascade = CascadeType.ALL)
+    private List<LineaFacturaModel> lineasFactura;
 
 }

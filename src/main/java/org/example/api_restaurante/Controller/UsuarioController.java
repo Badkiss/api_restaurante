@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class UsuarioController {
     @Autowired
     private UsuarioServices usuarioServices;
+    @Autowired
     private UsuarioEntityMapper usuarioEntityMapper;
     @GetMapping("/all")
     public List<UsuarioDTO> getAllUsuarios() {
@@ -24,7 +25,7 @@ public class UsuarioController {
         return usuarioDTOS;
     }
     @GetMapping("/{id}")
-    public UsuarioDTO getUsuario(@PathVariable Long id) {
+    public UsuarioDTO getUsuario(@PathVariable Long id){
         return usuarioEntityMapper.toDTO(usuarioServices.obtenerId(id));
     }
 

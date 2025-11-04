@@ -21,7 +21,9 @@ public class LineaFacturaModel {
     private int cantidad;
     private float precioTotal;
     private Long producto;
-    private Long factura;
-    private Date fecha;
+  //  private Long factura;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "factura")
+    private FacturaModel factura;
 
 }

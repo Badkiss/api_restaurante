@@ -13,6 +13,4 @@ public class LineaFacturaDTO {
     private Long producto;
     private int cantidad;
     private float precioTotal;
-    private Long factura;
-    private Date fecha;
 }

@@ -24,9 +24,9 @@ public class UsuarioServices {
         repoUsuario.save(usuarioModel);
     }
     public List<UsuarioModel> getAllUsuarios() {
-        List<UsuarioModel> usuarioDTOS = new ArrayList<>();
-        usuarioDTOS=repoUsuario.findAll();
-        return usuarioDTOS;
+        List<UsuarioModel> usuarioModels = new ArrayList<>();
+        usuarioModels=repoUsuario.findAll();
+        return usuarioModels;
     }
     public UsuarioModel obtenerId(Long id) {
        return repoUsuario.findById(id).get();

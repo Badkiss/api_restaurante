@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RecetaDTO {
     private float cantidad;
-    private Long producto;
     private Long materiaPrima;
 }

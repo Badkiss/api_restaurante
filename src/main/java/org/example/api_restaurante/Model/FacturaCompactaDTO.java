@@ -8,6 +8,5 @@ import java.util.List;
 @Data
 public class FacturaCompactaDTO {
     private FacturaDTO facturaDTO;
-    private List<LineaFacturaDTO> lineaFacturaDTOS;
-
+    private List<LineaFacturaDTO> lineasFactura;
 }

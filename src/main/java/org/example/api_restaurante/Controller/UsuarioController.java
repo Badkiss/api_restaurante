@@ -20,28 +20,34 @@ public class UsuarioController {
     private UsuarioEntityMapper usuarioEntityMapper;
     @GetMapping("/all")
     public List<UsuarioDTO> getAllUsuarios() {
-        List<UsuarioDTO> usuarioDTOS = new ArrayList<>();
-        usuarioDTOS=usuarioServices.getAllUsuarios().stream().map(usuarioEntityMapper::toDTO).collect(Collectors.toList());
+        List<UsuarioDTO> usuarioDTOS ;
+        usuarioDTOS=usuarioServices.all();
         return usuarioDTOS;
     }
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public UsuarioDTO getUsuario(@PathVariable Long id){
-        return usuarioEntityMapper.toDTO(usuarioServices.obtenerId(id));
+        return usuarioEntityMapper.toDTO(usuarioServices.findId(id));
+    }
+    @GetMapping("/email/{email}")
+    public UsuarioDTO getUsuario(@PathVariable String email){
+        return usuarioEntityMapper.toDTO(usuarioServices.findEmail(email));
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("/add")
     public String addUser(@RequestBody UsuarioDTO usuarioDTO) {
-        usuarioServices.addUser(usuarioDTO);
+        usuarioServices.add(usuarioDTO);
         return "usuario creado";
     }
-    @PutMapping("/updateUser")
-    public String update(@RequestBody UsuarioModel usuarioModel) {
-        usuarioServices.updateUsuario(usuarioModel);
-        return "usuario actualizado";
+    @PutMapping("/update")
+    public String update(@RequestBody UsuarioDTO usuarioDTO) {
+       return usuarioServices.update(usuarioDTO);
     }
-    @DeleteMapping("/deleteUser/{id}")
-    public String delete(@PathVariable Long id) {
-        usuarioServices.deleteUsuario(id);
-        return "usuario eliminado";
+    @DeleteMapping("/deleteId/{id}")
+    public String deleteId(@PathVariable Long id) {
+        return usuarioServices.deleteById(id);
+    }
+    @DeleteMapping("/deleteEmail/{email}")
+    public String deleteEmail(@PathVariable String email) {
+      return   usuarioServices.deleteByEmail(email);
     }
 }

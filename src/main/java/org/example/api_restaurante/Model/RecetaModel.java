@@ -19,6 +19,9 @@ public class RecetaModel {
     private Long id;
 
     private float cantidad;
-    private Long producto;
+   // private Long producto;
     private Long materiaPrima;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "producto")
+    private ProductoModel producto;
 }

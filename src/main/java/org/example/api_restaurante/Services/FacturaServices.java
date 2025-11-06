@@ -29,7 +29,7 @@ public class FacturaServices {
        FacturaModel facturaModel= repoFactura.save(facturaEntityMapper.toModel(facturaCompacta.getFacturaDTO()));
        List<LineaFacturaModel> lineasFactura=new ArrayList<>();
 
-        for (LineaFacturaDTO lineaFacturaDTO : facturaCompacta.getLineaFacturaDTOS()) {
+        for (LineaFacturaDTO lineaFacturaDTO : facturaCompacta.getLineasFactura()) {
             LineaFacturaModel lineaFacturaModel= lineaFacturaEntityMapper.toModel(lineaFacturaDTO);
             lineaFacturaModel.setFactura(facturaModel);
             lineasFactura.add(lineaFacturaModel);
@@ -44,7 +44,7 @@ public class FacturaServices {
        if(facturaCompacta.getFacturaDTO() == null){
            throw new RuntimeException("Factura no puede ser nula");
        }
-       if(facturaCompacta.getFacturaDTO().getId() != null){
+       if(facturaEntityMapper.toModel(facturaCompacta.getFacturaDTO()) != null){
            throw new RuntimeException("Factura no puede tener id");
        }
        if (!sumaTotal(facturaCompacta)){
@@ -54,7 +54,7 @@ public class FacturaServices {
 
     private boolean sumaTotal(FacturaCompactaDTO facturaCompacta) {
        float total=0;
-       for (LineaFacturaDTO lineaFacturaDTO : facturaCompacta.getLineaFacturaDTOS()) {
+       for (LineaFacturaDTO lineaFacturaDTO : facturaCompacta.getLineasFactura()) {
            total+=lineaFacturaDTO.getPrecioTotal();
        }
        return total==facturaCompacta.getFacturaDTO().getTotal();

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FacturaDTO {
-    private Long id;
     private float total;
     private Long idMesa;
     private Long usuario;

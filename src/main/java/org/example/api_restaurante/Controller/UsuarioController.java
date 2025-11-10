@@ -25,11 +25,11 @@ public class UsuarioController {
         return usuarioDTOS;
     }
     @GetMapping("/id/{id}")
-    public UsuarioDTO getUsuario(@PathVariable Long id){
+    public UsuarioDTO findId(@PathVariable Long id){
         return usuarioEntityMapper.toDTO(usuarioServices.findId(id));
     }
     @GetMapping("/email/{email}")
-    public UsuarioDTO getUsuario(@PathVariable String email){
+    public UsuarioDTO findEmail(@PathVariable String email){
         return usuarioEntityMapper.toDTO(usuarioServices.findEmail(email));
     }
 
@@ -46,7 +46,7 @@ public class UsuarioController {
     public String deleteId(@PathVariable Long id) {
         return usuarioServices.deleteById(id);
     }
-    @DeleteMapping("/deleteEmail/{email}")
+    @DeleteMapping("/delete/{email}")
     public String deleteEmail(@PathVariable String email) {
       return   usuarioServices.deleteByEmail(email);
     }

@@ -8,12 +8,14 @@ import org.example.api_restaurante.Repository.RepositoryFactura;
 import org.example.api_restaurante.Repository.RepositoryLineaFactura;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
+@Transactional
 public class FacturaServices {
     @Autowired
     private RepositoryFactura repoFactura;
@@ -36,8 +38,6 @@ public class FacturaServices {
         }
         facturaModel.setLineasFactura(lineasFactura);
         repoFactura.save(facturaModel);
-
-
     }
 
     private void isValidFacturaCompacta(FacturaCompactaDTO facturaCompacta) {

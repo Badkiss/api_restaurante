@@ -22,27 +22,27 @@ public class MateriaPrimaController {
 
     @GetMapping("/all")
     public List<MateriaPrimaDTO> getAllMateriaPrima() {
-        List<MateriaPrimaDTO> materiaPrimaDTOS = materiaPrimaServices.getAll().stream().map(materiaPrimaEntityMapper::toDTO).collect(Collectors.toList());
-        return materiaPrimaDTOS;
+
+        return materiaPrimaServices.getAll();
     }
     @GetMapping("/{id}")
     public MateriaPrimaDTO getMateriaPrimaId(@PathVariable Long id) {
-        return materiaPrimaEntityMapper.toDTO(materiaPrimaServices.getMateriaPrimaById(id));
+        return materiaPrimaServices.getMateriaPrimaById(id);
     }
     @GetMapping("/{nombre}")
-    public MateriaPrimaDTO getMateriaPrimaName(@PathVariable String nombre ){
-        return materiaPrimaEntityMapper.toDTO(materiaPrimaServices.getMateriaPrimaByNombre(nombre));
+    public List<MateriaPrimaDTO> getMateriaPrimaName(@PathVariable String nombre ){
+        return materiaPrimaServices.getMateriaPrimaByNombre(nombre);
     }
     @PostMapping("/add")
-    public void addMateriaPrima(@RequestBody MateriaPrimaDTO materiaPrimaDTO) {
-        materiaPrimaServices.add(materiaPrimaEntityMapper.toModel(materiaPrimaDTO));
+    public String addMateriaPrima(@RequestBody MateriaPrimaDTO materiaPrimaDTO) {
+     return   materiaPrimaServices.add(materiaPrimaDTO);
     }
     @PutMapping("/update")
-    public void updateMateriaPrima(@RequestBody MateriaPrimaModel materiaPrimaModel) {
-        materiaPrimaServices.update( materiaPrimaModel );
+    public String updateMateriaPrima(@RequestBody MateriaPrimaDTO materiaPrimaDTO) {
+     return   materiaPrimaServices.update(materiaPrimaDTO);
     }
-   @DeleteMapping("/delete/{id}")
-    public void deleteMateriaPrima(@PathVariable Long id) {
-         materiaPrimaServices.delete(id);
+   @DeleteMapping("/delete/{nombre}/{proveedor}")
+    public String deleteMateriaPrima(@PathVariable String nombre,@PathVariable Long proveedor) {
+       return   materiaPrimaServices.delete(nombre,proveedor);
    }
 }

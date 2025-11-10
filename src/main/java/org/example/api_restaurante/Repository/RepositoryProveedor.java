@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RepositoryProveedor extends JpaRepository<ProveedorModel,Long> {
+    ProveedorModel findByNombre(String nombre);
+    ProveedorModel findByEmail(String email);
+    boolean existsByEmail(String email);
 }

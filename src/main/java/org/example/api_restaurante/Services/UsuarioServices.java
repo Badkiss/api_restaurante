@@ -6,12 +6,14 @@ import org.example.api_restaurante.Model.UsuarioModel;
 import org.example.api_restaurante.Repository.RepositoryUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UsuarioServices {
     @Autowired
     private RepositoryUsuario repoUsuario;
@@ -29,26 +31,29 @@ public class UsuarioServices {
     public UsuarioModel findEmail(String email) {
         return repoUsuario.findByEmail(email);
     }
-    public void add(UsuarioDTO usuarioDTO) {
-
-        UsuarioModel usuarioModel = new UsuarioModel();
-        usuarioModel.setNombre(usuarioDTO.getNombre());
-        usuarioModel.setApellidos(usuarioDTO.getApellidos());
-        usuarioModel.setEmail(usuarioDTO.getEmail());
-        usuarioModel.setTelefono(usuarioDTO.getTelefono());
-        repoUsuario.save(usuarioModel);
+    public String add(UsuarioDTO usuarioDTO) {
+        if(repoUsuario.findByEmail(usuarioDTO.getEmail()) != null) {
+            return "Usuario ya registrado con el email ";
+        }
+        repoUsuario.save(usuarioEntityMapper.toModel(usuarioDTO));
+        return "Usuario Registrado";
     }
     public String update(UsuarioDTO usuarioDTO) {
-        UsuarioModel usuarioModel = usuarioEntityMapper.toModel(usuarioDTO);
-        if(!repoUsuario.existsById(usuarioModel.getId())) {
-            throw new RuntimeException("Usuario no encontrado");
+
+        if(!repoUsuario.existsByEmail(usuarioDTO.getEmail())) {
+         return  "Usuario no encontrado";
         }
+          UsuarioModel usuarioModel = repoUsuario.findByEmail(usuarioDTO.getEmail());
+            usuarioModel.setApellidos(usuarioDTO.getApellidos());
+            usuarioModel.setNombre(usuarioDTO.getNombre());
+            usuarioModel.setPassword(usuarioDTO.getPassword());
+            usuarioModel.setTelefono(usuarioDTO.getTelefono());
           repoUsuario.save(usuarioModel);
         return "Usuario actualizado";
     }
     public String deleteById(Long id) {
         if (!repoUsuario.existsById(id)) {
-            throw new RuntimeException("Usuario no encontrado");
+            return "Usuario no encontrado";
         }
         repoUsuario.deleteById(id);
         return "Usuario eliminado";

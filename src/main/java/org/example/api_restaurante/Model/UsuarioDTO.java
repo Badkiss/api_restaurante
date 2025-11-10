@@ -12,4 +12,6 @@ public class UsuarioDTO {
     private String apellidos;
     private String email;
     private String telefono;
+    private int tipoUsuario;
+    private String password;
 }

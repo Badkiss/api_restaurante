@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface RepositoryProducto extends JpaRepository<ProductoModel,Long> {
     boolean existsByNombre(String nombre);
-    List<ProductoModel> findByNombre(String nombre);
+    ProductoModel findByNombre(String nombre);
     void deleteByNombre(String nombre);
 }

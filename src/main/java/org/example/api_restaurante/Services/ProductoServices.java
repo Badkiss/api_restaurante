@@ -8,12 +8,14 @@ import org.example.api_restaurante.Repository.RepositoryReceta;
 import org.example.api_restaurante.Repository.RepositoryUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ProductoServices {
     @Autowired
     private RepositoryProducto repoProducto;
@@ -46,7 +48,7 @@ public class ProductoServices {
         if(!repoProducto.existsByNombre(nombre)) {
             throw new RuntimeException("Producto no existe");
         }
-        ProductoModel productoModel= repoProducto.findByNombre(nombre).get(0);
+        ProductoModel productoModel= repoProducto.findByNombre(nombre);
         productoCompactoDTO.setProductoDTO(productoEntityMapper.toDTO(productoModel));
         List<RecetaDTO> recetas=buscarRecetas(productoModel);
         if(recetas == null){
@@ -57,7 +59,7 @@ public class ProductoServices {
 
     }
     public String add(ProductoCompactoDTO productoCompacto) {
-        if (!repoProducto.existsByNombre(productoCompacto.getProductoDTO().getNombre())){
+        if (repoProducto.existsByNombre(productoCompacto.getProductoDTO().getNombre())){
             return "Producto ya con el mismo nombre";
         }
         ProductoModel producto= repoProducto.save(productoEntityMapper.toModel(productoCompacto.getProductoDTO()));
@@ -72,15 +74,20 @@ public class ProductoServices {
         return "Producto añadido";
     }
     public String update(ProductoCompactoDTO productoCompacto) {
-        if (productoCompacto.getProductoDTO() == null) {
-            throw new RuntimeException("Producto no encontrado");
-        } else if (repoProducto.findByNombre(productoCompacto.getProductoDTO().getNombre()).isEmpty()) {
-            throw new RuntimeException("Producto no encontrado");
+        if (!repoProducto.existsByNombre(productoCompacto.getProductoDTO().getNombre())){
+            return "Producto no encontrado";
         }
-        ProductoModel productoModel= productoEntityMapper.toModel(productoCompacto.getProductoDTO());
+        ProductoModel productoModel= repoProducto.findByNombre(productoCompacto.getProductoDTO().getNombre());
+        productoModel.setPrecio(productoCompacto.getProductoDTO().getPrecio());
+        repoReceta.deleteByProducto_Id(productoModel.getId());
+        List<RecetaModel> recetas= productoCompacto.getRecetas().stream().map(recetaDTO -> {
+            RecetaModel recetaModel= recetaEntityMapper.toModel(recetaDTO);
+            recetaModel.setProducto(productoModel);
+            return recetaModel;
+        }).collect(Collectors.toList());
+        productoModel.setRecetas(recetas);
         repoProducto.save(productoModel);
-        return "Producto modificado";
-
+        return "Producto actualizado";
     }
     public String deleteById(Long id) {
         if (!repoProducto.existsById(id)) {

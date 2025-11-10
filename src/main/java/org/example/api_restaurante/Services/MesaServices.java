@@ -5,10 +5,12 @@ import org.example.api_restaurante.Model.MesaModel;
 import org.example.api_restaurante.Repository.RepositoryMesa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class MesaServices {
     @Autowired
     private RepositoryMesa mesaRepository;

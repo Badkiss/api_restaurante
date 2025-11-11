@@ -1,5 +1,6 @@
 package org.example.api_restaurante.Services;
 
+import org.example.api_restaurante.Mapper.MesaEntityMapper;
 import org.example.api_restaurante.Model.MesaDTO;
 import org.example.api_restaurante.Model.MesaModel;
 import org.example.api_restaurante.Repository.RepositoryMesa;
@@ -8,29 +9,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class MesaServices {
     @Autowired
     private RepositoryMesa mesaRepository;
+    @Autowired
+    private MesaEntityMapper mesaEntityMapper;
 
-    public List<MesaModel> allMesa( ) {
+    public List<MesaDTO> allMesa( ) {
         List<MesaModel> mesaModels = mesaRepository.findAll();
-        return mesaModels;
+
+        return  mesaModels.stream().map(mesaEntityMapper::toDTO).collect(Collectors.toList());
     }
-    public MesaModel mesaById(Long id) {
-        return mesaRepository.findById(id).get();
+    public MesaDTO mesaById(Long id) {
+        return mesaEntityMapper.toDTO(mesaRepository.findById(id).get());
     }
-    public void addMesa(MesaDTO mesaDTO) {
+    public String addMesa(MesaDTO mesaDTO) {
         MesaModel mesaModel1 = new MesaModel();
         mesaModel1.setCantidad(mesaDTO.getCantidad());
         mesaRepository.save(mesaModel1);
+        return "Mesa agregada";
     }
-    public void updateMesa(MesaModel mesaModel) {
+    public String updateMesa(MesaDTO mesaDTO) {
+        if (mesaRepository.existsById(mesaDTO.getId())) {
+            return "No se encontro la mesa";
+        }
+       MesaModel mesaModel = mesaRepository.findById(mesaDTO.getId()).get();
+        mesaModel.setCantidad(mesaDTO.getCantidad());
         mesaRepository.save(mesaModel);
+        return "Mesa actualizada";
     }
-    public void deleteMesa(Long id) {
+    public String deleteMesa(Long id) {
         mesaRepository.deleteById(id);
+        return "Mesa eliminada";
     }
 }

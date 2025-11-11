@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MesaDTO {
+    private Long id;
     private int cantidad;
 }

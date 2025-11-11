@@ -18,23 +18,23 @@ public class MesaController {
     private MesaEntityMapper mesaEntityMapper;
 
     @GetMapping("/all")
-    public List<MesaModel> getAllMesa() {
+    public List<MesaDTO> getAllMesa() {
        return mesaServices.allMesa();
     }
     @GetMapping("/{id}")
-    public MesaModel getMesa(@PathVariable Long id) {
+    public MesaDTO getMesa(@PathVariable Long id) {
         return mesaServices.mesaById(id);
     }
     @PostMapping("/add")
-    public void addMesa(@RequestBody MesaDTO mesaDTO) {
-        mesaServices.addMesa(mesaDTO);
+    public String addMesa(@RequestBody MesaDTO mesaDTO) {
+     return    mesaServices.addMesa(mesaDTO);
     }
     @PutMapping("/update")
-    public void updateMesa(@RequestBody MesaDTO mesaDTO) {
-        mesaServices.updateMesa(mesaEntityMapper.toModel(mesaDTO));
+    public String updateMesa(@RequestBody MesaDTO mesaDTO) {
+      return   mesaServices.updateMesa(mesaDTO);
     }
     @DeleteMapping("/delete/{id}")
-    public void deleteMesa(@PathVariable Long id) {
-        mesaServices.deleteMesa(id);
+    public String deleteMesa(@PathVariable Long id) {
+      return   mesaServices.deleteMesa(id);
     }
 }
